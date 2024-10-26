@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "404695596082",
+    "firebase_url": "https://active-tech-project-default-rtdb.firebaseio.com",
+    "project_id": "active-tech-project",
+    "storage_bucket": "active-tech-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:404695596082:android:6ce833c191827b4ac7d02b",
+        "android_client_info": {
+          "package_name": "com.example.activetechproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGljeqEKd66iFM3XTtKa-WGbCnlVE0Ay0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

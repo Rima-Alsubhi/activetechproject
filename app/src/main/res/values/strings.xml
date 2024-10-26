@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">activetechproject</string>
+
+    <string name="text1"> Sign Up</string>
+    <string name="edit1">Full Name </string>
+    <string name="edit2"> Register</string>
+    <string name="edit3"> Email Address</string>
+    <string name="edit4"> Password</string>
+    <string name="text2"> Register</string>
+    <string name="text3"> Log In</string>
+    <string name="edit5"> Email Address</string>
+    <string name="edit6"> Password</string>
+    <string name="edit7"> Forgot Password?</string>
+    <string name="text4"> Login</string>
+    <string name="text5"> If you do not have an account, Register now!</string>
+    <string name="text6">Home </string>
+    <string name="text7"> Network</string>
+    <string name="text8"> Explore</string>
+    <string name="text9"> Events:</string>
+    <string name="edit8"> Search events...</string>
+    <string name="text0">No results found </string>
+    <string name="text11">Welcome </string>
+    <string name="text12">Choose what you want to explore today</string>
+    <string name="back_button_description">this is back button </string>
+
+</resources>
