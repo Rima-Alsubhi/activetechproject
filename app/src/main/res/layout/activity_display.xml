@@ -10,8 +10,9 @@
     <ImageView
         android:id="@+id/eventImageView"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="200dp"
         android:layout_gravity="center"
+        android:layout_marginTop="70dp"
         android:scaleType="centerCrop"
         />
 
@@ -20,9 +21,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textSize="24sp"
+        android:textSize="26sp"
         android:textStyle="bold"
-        android:textColor="#1976D2" />
+        android:textColor="#0066B3" />
 
     <TextView
         android:id="@+id/eventDescription"
@@ -30,7 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
-        android:textColor="#424242" />
+        android:textSize="19sp"
+        android:textColor="#4A4A4A" />
 
     <TextView
         android:id="@+id/eventLocation"
@@ -38,7 +40,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
-        android:textColor="#424242" />
+        android:textSize="23sp"
+        android:textColor="#4A4A4A" />
 
     <TextView
         android:id="@+id/eventDate"
@@ -46,7 +49,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
-        android:textColor="#424242" />
+        android:textSize="23sp"
+        android:textColor="#4A4A4A" />
 
     <TextView
         android:id="@+id/eventOrganization"
@@ -54,7 +58,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
-        android:textColor="#424242" />
+        android:textSize="23sp"
+        android:textColor="#4A4A4A" />
 
     <TextView
         android:id="@+id/eventTime"
@@ -62,7 +67,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
-        android:textColor="#424242" />
+        android:textSize="23sp"
+        android:textColor="#4A4A4A" />
 
     <View
         android:layout_width="wrap_content"

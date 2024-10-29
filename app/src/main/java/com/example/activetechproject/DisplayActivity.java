@@ -41,9 +41,9 @@ public class DisplayActivity extends AppCompatActivity {
             if (documentSnapshot.exists()) {
                 titleTextView.setText(documentSnapshot.getString("Name"));
                 descriptionTextView.setText(documentSnapshot.getString("Description"));
+                //organizationTextView.setText(documentSnapshot.getString("The organization"));
                 locationTextView.setText(documentSnapshot.getString("Location"));
                 dateTextView.setText(documentSnapshot.getString("Date"));
-                organizationTextView.setText(documentSnapshot.getString("The_organization"));
                 timeTextView.setText(documentSnapshot.getString("Time"));
                 String imageUrl = documentSnapshot.getString("Logo");
                 Glide.with(DisplayActivity.this)

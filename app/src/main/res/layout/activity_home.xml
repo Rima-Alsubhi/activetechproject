@@ -16,46 +16,38 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/text11"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        android:textStyle="italic" />
+        android:textColor="#F70F3962"
+        android:textSize="26dp"
+        android:textStyle="bold" />
 
     <TextView
-        android:layout_width="377dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
+        android:layout_gravity="center"
         android:layout_marginBottom="20dp"
         android:text="@string/text12"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        android:textStyle="italic" />
+        android:textColor="#F82C4A6D"
+        android:textSize="22dp"
+        android:textStyle="normal" />
 
-    <Button
+    <ImageButton
         android:id="@+id/exploreButton"
-        android:layout_width="367dp"
-        android:layout_height="48dp"
+        android:layout_width="224dp"
+        android:layout_height="199dp"
         android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="#4670AF"
-        android:text="@string/text8"
-        android:textColor="#212121"
-        android:textStyle="bold"
+        android:background="@drawable/img_1"
+        android:contentDescription="@string/text7"
+        android:scaleType="fitCenter"
 
         />
 
-    <Button
+    <ImageButton
         android:id="@+id/networkButton"
-        android:layout_width="367dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="#4670AF"
-        android:text="@string/text7"
-        android:textColor="#212121"
-        android:textStyle="bold"
-
-        />
-
+        android:layout_width="230dp"
+        android:layout_height="247dp"
+        android:layout_gravity="center"
+        android:background="@drawable/img"
+        android:contentDescription="@string/text7"
+        android:scaleType="fitCenter" />
 
 </LinearLayout>

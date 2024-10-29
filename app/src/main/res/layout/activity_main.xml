@@ -7,6 +7,14 @@
     android:background="@drawable/background"
     android:gravity="center"
     android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/profileImageView"
+        android:layout_width="167dp"
+        android:layout_height="108dp"
+        android:src="@drawable/img_3"
+        android:layout_marginTop="70dp"/>
+
     <TextView
         android:id="@+id/banner"
         android:layout_width="match_parent"
@@ -17,13 +25,12 @@
         android:gravity="center"
         android:textStyle="bold"
         android:fontFamily="serif"
-        android:layout_marginTop="30dp"
         />
     <EditText
         android:id="@+id/email_Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:hint="@string/edit5"
         android:inputType="textEmailAddress"
         android:textSize="24sp"
