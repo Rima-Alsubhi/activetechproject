@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void registerPage(View view) {
         Intent intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
+    }
+    public void onForgotPasswordClick(View view){
+        Intent intent=new Intent(this,forgotPassword.class);
         startActivity(intent);
     }
 

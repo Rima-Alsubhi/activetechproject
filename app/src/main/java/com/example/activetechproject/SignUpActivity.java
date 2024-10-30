@@ -26,6 +26,8 @@ public class SignUpActivity extends AppCompatActivity {
         et_fullName = (EditText) findViewById(R.id.FullName);
         et_email = (EditText) findViewById(R.id.email);
         et_password = (EditText) findViewById(R.id.Password);
+        ImageButton backButton = findViewById(R.id.back_button);
+        backButton.setOnClickListener(v -> onBackPressed());
     }
 
     public void registerDB(View view) {
@@ -75,5 +77,8 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
+
+        ImageButton backButton = findViewById(R.id.back_button);
+        backButton.setOnClickListener(v -> onBackPressed());
     }
 }
