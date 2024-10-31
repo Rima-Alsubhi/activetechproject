@@ -22,8 +22,8 @@
     <string name="text11">Welcome to Tech World</string>
     <string name="text12">Choose your learning journey today</string>
     <string name="back_button_description">this is back button </string>
-    <string name="text13">FORGOT PASSWORD</string>
-    <string name="text14">Which email do  you want to reset the password</string>
+    <string name="text13"> RESET PASSWORD</string>
+    <string name="text14">Please enter your email  to reset  password</string>
     <string name="text15">Email</string>
     <string name="text16">RESET PASSWORD</string>
 

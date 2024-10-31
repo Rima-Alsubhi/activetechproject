@@ -72,14 +72,19 @@
         android:textStyle="bold"
         app:cornerRadius="20dp"
         android:layout_gravity="center"/>
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
     <ImageButton
-        android:id="@+id/back_button"
+        android:id="@+id/back_button2"
         android:layout_width="55dp"
-        android:layout_height="55dp"
+        android:layout_height="42dp"
         android:layout_margin="16dp"
         android:background="@drawable/back"
         android:contentDescription="@string/back_button_description"
         android:scaleType="fitCenter"
-        android:layout_gravity="left"
-        android:src="@drawable/back" />
+        android:src="@drawable/back"
+        android:layout_gravity="end|left" />
 </LinearLayout>

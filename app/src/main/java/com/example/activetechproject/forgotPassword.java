@@ -1,64 +1,86 @@
 package com.example.activetechproject;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.annotation.NonNull;
 import android.util.Patterns;
-import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class forgotPassword extends AppCompatActivity {
-    private FirebaseAuth mAuth;
-    private EditText et_email;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_forgot_password);
-        mAuth = FirebaseAuth.getInstance();
-        et_email = findViewById(R.id.emailText);
-    }
+        private EditText emailEditText;
+        private FirebaseAuth mAuth;
+        private FirebaseFirestore db;
 
-    public void resetPassword(View view) {
-        String email = et_email.getText().toString().trim();
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_forgot_password);
 
-        if (email.isEmpty()) {
-            et_email.setError("Email is required");
-            et_email.requestFocus();
-            return;
+            emailEditText = findViewById(R.id.email_forgot_password);
+            mAuth = FirebaseAuth.getInstance();
+            db = FirebaseFirestore.getInstance();
+
+            Button resetPasswordButton = findViewById(R.id.resetPasswordButton);
+            resetPasswordButton.setOnClickListener(v -> resetPassword());
+
+//        Button homeButton = findViewById(R.id.homeButton);
+//        homeButton.setOnClickListener(v -> goToHomeActivity());
+
+            ImageButton backButton = findViewById(R.id.back_button2);
+            backButton.setOnClickListener(v -> {
+                Intent intent = new Intent(forgotPassword.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            });
+
+
         }
 
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            et_email.setError("Please provide a valid Email");
-            et_email.requestFocus();
-            return;
-        }
+        private void resetPassword() {
+            String email = emailEditText.getText().toString().trim();
 
-        mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(forgotPassword.this, "Check your email to reset your password!", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(forgotPassword.this, "Failed to send reset email: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                }
+            if (email.isEmpty()) {
+                emailEditText.setError("Email is required");
+                emailEditText.requestFocus();
+                return;
             }
-        });
-        // Button to go back to the previous activity
-        ImageButton backButton = findViewById(R.id.back_button);
-        backButton.setOnClickListener(v -> onBackPressed()); // Go back to the previous activity
 
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                emailEditText.setError("Please provide a valid email");
+                emailEditText.requestFocus();
+                return;
+            }
+
+            mAuth.sendPasswordResetEmail(email)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(forgotPassword.this,
+                                    "Check your email to reset your password",
+                                    Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(forgotPassword.this,
+                                    "Failed to send reset email: " + task.getException().getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+        }
+
+        private void goToHomeActivity() {
+            startActivity(new Intent(forgotPassword.this, HomeActivity.class));
+            finish();
+        }
     }
-}
