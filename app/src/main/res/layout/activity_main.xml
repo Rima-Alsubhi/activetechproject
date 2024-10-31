@@ -81,5 +81,7 @@
         android:onClick="registerPage"
         android:text="@string/text5"
         android:textSize="20sp"
-        android:textStyle="normal" />
+        android:textStyle="normal"
+        android:gravity="center"
+        />
 </LinearLayout>
