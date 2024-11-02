@@ -9,6 +9,13 @@ public class Event {
     private String Time;
     private String imageUrl;
 
+    // Location coordinates for the event
+    private double latitude; // Latitude of the event location
+    private double longitude; // Longitude of the event location
+    private boolean isOnline; // True if the event is online, false if it is physical
+
+
+
     // Default constructor required for Firestore
     public Event() {}
 
@@ -70,4 +77,31 @@ public class Event {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+
+    // Getters and setters for location coordinates and online status
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public boolean isOnline() {
+        return isOnline;
+    }
+
+    public void setOnline(boolean online) {
+        isOnline = online;
+    }
+
 }
