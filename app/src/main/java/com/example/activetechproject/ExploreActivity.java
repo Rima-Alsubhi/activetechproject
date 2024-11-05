@@ -100,7 +100,8 @@ public class ExploreActivity extends AppCompatActivity {
                 }
             } else {
                 Log.e(TAG, "Error fetching events", task.getException());
-                Toast.makeText(ExploreActivity.this, "Error fetching events: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ExploreActivity.this, "Error fetching events: " +
+                        task.getException().getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -20,6 +20,7 @@ public class DisplayActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     private String eventName;
+    private String eventURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class DisplayActivity extends AppCompatActivity {
         docRef.get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {
                 eventName = documentSnapshot.getString("Name");
+                eventURL = documentSnapshot.getString("URL");
                 titleTextView.setText(eventName);
                 //titleTextView.setText(documentSnapshot.getString("Name"));
                 descriptionTextView.setText(documentSnapshot.getString("Description"));
@@ -81,7 +83,7 @@ public class DisplayActivity extends AppCompatActivity {
 
         String subject = "Confirmation of Interest in " + eventName;
         String message = "Thank you for showing interest in " + eventName +
-                "! We encourage you to register for this event within the allowed duration. Best wishes!";
+                "! We encourage you to register for this event within the allowed duration.\n\n" + "Event Link: " + eventURL + "\n\nBest wishes!";
 
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setType("message/rfc822"); // MIME type for email
