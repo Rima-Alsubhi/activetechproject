@@ -8,7 +8,6 @@ public class Event {
     private String The_organization;
     private String Time;
     private String imageUrl;
-    private String URL;
 
     // Default constructor required for Firestore
     public Event() {}
@@ -70,11 +69,5 @@ public class Event {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-    public String getURL (){return URL;}
-
-    public void setURL(String url) {
-        this.URL = url;
     }
 }
