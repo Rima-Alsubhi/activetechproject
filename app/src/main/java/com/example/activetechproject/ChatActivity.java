@@ -8,8 +8,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -18,11 +21,23 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
-
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int TAKE_PHOTO_REQUEST = 2;
     private RecyclerView chatRecyclerView;
@@ -30,9 +45,12 @@ public class ChatActivity extends AppCompatActivity {
     private List<ChatMessage> chatMessages;
     private EditText messageInput;
     private Uri selectedImageUri;
+    private String communityId; // تأكد من تعيين هذا المعرف من النشاط السابق
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
@@ -40,6 +58,7 @@ public class ChatActivity extends AppCompatActivity {
         messageInput = findViewById(R.id.et_message);
         ImageButton sendButton = findViewById(R.id.btn_send);
         ImageButton attachmentButton = findViewById(R.id.btn_attachment);
+        ImageButton backButton1 = findViewById(R.id.back_button);
 
         chatMessages = new ArrayList<>();
         chatAdapter = new ChatAdapter(chatMessages);
@@ -56,8 +75,10 @@ public class ChatActivity extends AppCompatActivity {
                     messageInput.setText("");
                     selectedImageUri = null; // إعادة تعيين الصورة بعد الإرسال
                 }
+                chatAdapter.notifyDataSetChanged(); // أبلغ adapter بتحديث البيانات
             }
         });
+
 
         attachmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +86,16 @@ public class ChatActivity extends AppCompatActivity {
                 openImageSourceDialog();
             }
         });
+
+        backButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish(); // Back to Network page
+            }
+        });
+
+
+
     }
 
     private void openImageSourceDialog() {
@@ -120,9 +151,23 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void sendMessage(String message, Uri imageUri) {
-        String username = "User123"; // يمكن جلب الاسم من قاعدة بيانات
-        chatMessages.add(new ChatMessage(username, message, imageUri));
-        chatAdapter.notifyDataSetChanged();
-        chatRecyclerView.scrollToPosition(chatMessages.size() - 1);
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(userId);
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String username = dataSnapshot.child("fullName").getValue(String.class); // تأكد من أن لديك حقل "fullName"
+                ChatMessage chatMessage = new ChatMessage(username, message, imageUri);
+                chatMessages.add(chatMessage);
+                chatAdapter.notifyDataSetChanged();
+                chatRecyclerView.scrollToPosition(chatMessages.size() - 1);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // التعامل مع الأخطاء
+            }
+        });
     }
 }
