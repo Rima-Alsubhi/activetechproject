@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -28,13 +27,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
@@ -60,11 +56,15 @@ public class ChatActivity extends AppCompatActivity {
         ImageButton attachmentButton = findViewById(R.id.btn_attachment);
         ImageButton backButton1 = findViewById(R.id.back_button);
 
+        communityId = getIntent().getStringExtra("COMMUNITY_ID"); // الحصول على معرف المجتمع
+
         chatMessages = new ArrayList<>();
         chatAdapter = new ChatAdapter(chatMessages);
 
         chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         chatRecyclerView.setAdapter(chatAdapter);
+
+        loadMessages();
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +93,8 @@ public class ChatActivity extends AppCompatActivity {
                 finish(); // Back to Network page
             }
         });
-
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference("test");
+        database.setValue("Hello, Firebase!");
 
 
     }
@@ -149,24 +150,61 @@ public class ChatActivity extends AppCompatActivity {
             selectedImageUri = data.getData(); // احفظ صورة الكاميرا
         }
     }
-
-    private void sendMessage(String message, Uri imageUri) {
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(userId);
-
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+    private void loadMessages() {
+        // الحصول على الرسائل من قاعدة البيانات الخاصة بالمجتمع المحدد
+        DatabaseReference messagesRef = FirebaseDatabase.getInstance().getReference("messages").child(communityId);
+        messagesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String username = dataSnapshot.child("fullName").getValue(String.class); // تأكد من أن لديك حقل "fullName"
-                ChatMessage chatMessage = new ChatMessage(username, message, imageUri);
-                chatMessages.add(chatMessage);
-                chatAdapter.notifyDataSetChanged();
-                chatRecyclerView.scrollToPosition(chatMessages.size() - 1);
+                chatMessages.clear(); // مسح الرسائل السابقة
+                // استرجاع الرسائل الجديدة
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    ChatMessage chatMessage = snapshot.getValue(ChatMessage.class);
+                    chatMessages.add(chatMessage); // إضافة الرسالة إلى قائمة الرسائل
+
+                }
+                chatAdapter.notifyDataSetChanged(); // تحديث الشات لعرض الرسائل الجديدة
+                chatRecyclerView.scrollToPosition(chatMessages.size() - 1); // للتمرير إلى اخر رسالة
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // التعامل مع الأخطاء
+                Toast.makeText(ChatActivity.this, "Failed to load messages: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void sendMessage(String message, Uri imageUri) {
+        // للحصول على اسم المستخدم الحالي
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(userId);
+        String timestamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date());
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // لاسترجاع اسم المستخدم من قاعدة البيانات
+                String username = dataSnapshot.child("fullName").getValue(String.class);
+                ChatMessage chatMessage = new ChatMessage(username, message, timestamp);
+                chatMessages.add(chatMessage);
+                chatAdapter.notifyDataSetChanged();
+                chatRecyclerView.scrollToPosition(chatMessages.size() - 1);
+                DatabaseReference messagesRef = FirebaseDatabase.getInstance().getReference("messages").child(communityId);
+                String messageId = messagesRef.push().getKey();
+
+                if (messageId != null) {
+                    messagesRef.child(messageId).setValue(chatMessage).addOnCompleteListener(task -> {
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(ChatActivity.this, "Failed to send message", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(ChatActivity.this,
+                        "Failed to read data " + databaseError.getMessage(),
+                        Toast.LENGTH_LONG).show();
             }
         });
     }

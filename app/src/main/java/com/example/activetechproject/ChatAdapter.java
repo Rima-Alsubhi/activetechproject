@@ -1,5 +1,4 @@
 package com.example.activetechproject;
-
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,16 +31,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         ChatMessage message = chatMessages.get(position);
 
         // عرض الاسم والنص
-        holder.username.setText(message.getUsername());
+        holder.username.setText(message.getSenderId());
         holder.messageText.setText(message.getMessage());
 
         // عرض الصورة إذا كانت موجودة في الرسالة
-        if (message.getImageUri() != null) {
-            holder.messageImage.setVisibility(View.VISIBLE);
-            holder.messageImage.setImageURI(message.getImageUri());
-        } else {
-            holder.messageImage.setVisibility(View.GONE); // إخفاء الصورة إذا لم تكن جزء من الرسالة
-        }
+//        if (message.getImageUri() != null) {
+//            holder.messageImage.setVisibility(View.VISIBLE);
+//            holder.messageImage.setImageURI(message.getImageUri());
+//        } else {
+//            holder.messageImage.setVisibility(View.GONE); // إخفاء الصورة إذا لم تكن جزء من الرسالة
+//        }
     }
 
     @Override
@@ -60,4 +59,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             messageImage = itemView.findViewById(R.id.message_image);
         }
     }
+
+
 }
