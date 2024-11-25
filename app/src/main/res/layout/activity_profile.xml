@@ -14,7 +14,7 @@
         android:layout_width="141dp"
         android:layout_height="141dp"
         android:layout_gravity="center"
-        android:background="@drawable/profile"
+        android:background="@drawable/img_3"
         android:clipToOutline="true"
         android:padding="8dp"
         android:scaleType="centerCrop" />
