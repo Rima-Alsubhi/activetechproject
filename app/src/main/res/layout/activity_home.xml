@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
@@ -10,44 +10,70 @@
     android:padding="16dp">
 
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/text11"
+                android:textColor="#F70F3962"
+                android:layout_marginTop="10dp"
+                android:textSize="26sp"
+                android:textStyle="bold" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/text11"
-        android:textColor="#F70F3962"
-        android:textSize="26dp"
-        android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/text12"
+                android:textColor="#F82C4A6D"
+                android:textSize="15sp"
+                android:textStyle="normal" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
-        android:text="@string/text12"
-        android:textColor="#F82C4A6D"
-        android:textSize="22dp"
-        android:textStyle="normal" />
+
+        <ImageButton
+            android:id="@+id/exploreButton"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:background="@drawable/explore"
+            android:contentDescription="@string/text7"
+            android:layout_marginTop="15dp"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Explore"
+            android:backgroundTint="#4158DA"
+            android:textColor="#F70F3962"
+            android:textSize="15sp"
+            android:layout_marginTop="8dp"
+            android:gravity="center" />
+
+
+        <ImageButton
+            android:id="@+id/networkButton"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:background="@drawable/community"
+            android:contentDescription="@string/text7"
+            android:layout_marginTop="15dp"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Network"
+            android:textColor="#F70F3962"
+            android:textSize="15sp"
+            android:layout_marginTop="8dp"
+            android:gravity="center" />
 
     <ImageButton
-        android:id="@+id/exploreButton"
-        android:layout_width="224dp"
-        android:layout_height="199dp"
-        android:layout_gravity="center"
-        android:background="@drawable/img_1"
-        android:contentDescription="@string/text7"
-        android:scaleType="fitCenter"
-
-        />
-
-    <ImageButton
-        android:id="@+id/networkButton"
-        android:layout_width="230dp"
-        android:layout_height="247dp"
-        android:layout_gravity="center"
-        android:background="@drawable/img"
-        android:contentDescription="@string/text7"
-        android:scaleType="fitCenter" />
-
+        android:id="@+id/profileButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="end|bottom"
+        android:background="@drawable/profile1"
+        android:contentDescription="@string/text18"
+        android:scaleType="centerCrop" />
 </LinearLayout>

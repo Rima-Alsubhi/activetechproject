@@ -1,4 +1,5 @@
 package com.example.activetechproject;
+
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -22,7 +23,7 @@ public class HomeActivity extends AppCompatActivity {
 
         ImageButton exploreButton = findViewById(R.id.exploreButton);
         ImageButton networkButton = findViewById(R.id.networkButton);
-
+        ImageButton profileButton = findViewById(R.id.profileButton);
 
         exploreButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,6 +37,13 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, NetworkActivity.class);
+                startActivity(intent);
+            }
+        });
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, activity_profile.class);
                 startActivity(intent);
             }
         });
