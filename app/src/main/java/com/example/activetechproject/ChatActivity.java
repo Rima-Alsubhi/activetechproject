@@ -185,20 +185,20 @@ public class ChatActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // لاسترجاع اسم المستخدم من قاعدة البيانات
                 String username = dataSnapshot.child("fullName").getValue(String.class);
-                ChatMessage chatMessage = new ChatMessage(username, message, timestamp);
+                ChatMessage chatMessage = new ChatMessage(username, message, imageUri);
                 chatMessages.add(chatMessage);
                 chatAdapter.notifyDataSetChanged();
                 chatRecyclerView.scrollToPosition(chatMessages.size() - 1);
-                DatabaseReference messagesRef = FirebaseDatabase.getInstance().getReference("messages").child(communityId);
-                String messageId = messagesRef.push().getKey();
-
-                if (messageId != null) {
-                    messagesRef.child(messageId).setValue(chatMessage).addOnCompleteListener(task -> {
-                        if (!task.isSuccessful()) {
-                            Toast.makeText(ChatActivity.this, "Failed to send message", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
+//                DatabaseReference messagesRef = FirebaseDatabase.getInstance().getReference("messages").child(communityId);
+//                String messageId = messagesRef.push().getKey();
+//
+//                if (messageId != null) {4
+//                    messagesRef.child(messageId).setValue(chatMessage).addOnCompleteListener(task -> {
+//                        if (!task.isSuccessful()) {
+//                            Toast.makeText(ChatActivity.this, "Failed to send message", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

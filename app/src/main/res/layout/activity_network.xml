@@ -1,55 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:orientation="vertical"
     android:background="@drawable/background"
-    android:paddingTop="200dp">
+    android:paddingTop="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:text="@string/text19"
+        android:textColor="#F70F3962"
+        android:textSize="26sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/btn_cyber"
-        android:layout_width="178dp"
-        android:layout_height="59dp"
-        android:backgroundTint="#944670AF"
-        android:text="Cyber Community" />
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:text="Cyber Community"
+        android:textColor="#0C3787"
+        android:textSize="18sp"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="10dp"
+        android:drawablePadding="8dp"
+    android:background="@drawable/button2" />
 
     <Button
         android:id="@+id/btn_data"
-        android:layout_width="181dp"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
         android:layout_below="@+id/btn_cyber"
-        android:backgroundTint="#944670AF"
-
-        android:layout_marginTop="13dp"
-        android:text="Data Community" />
+        android:text="Data Community"
+        android:textColor="#0C3787"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        android:drawablePadding="8dp"
+        android:layout_gravity="center"
+        android:background="@drawable/button2" />
 
     <Button
         android:id="@+id/btn_software"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
         android:layout_below="@+id/btn_data"
-        android:layout_width="wrap_content"
-        android:backgroundTint="#944670AF"
-
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Software Community" />
-
-
+        android:text="Software Community"
+        android:textColor="#0C3787"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        android:drawablePadding="8dp"
+        android:background="@drawable/button2"
+        android:layout_gravity="center_horizontal" />
 
     <ImageButton
         android:id="@+id/back_button"
         android:layout_width="55dp"
-        android:layout_height="45dp"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="49dp"
+        android:layout_height="42dp"
+        android:layout_gravity="bottom"
         android:background="@drawable/back"
         android:contentDescription="@string/back_button_description"
         android:scaleType="fitCenter"
-        android:src="@drawable/back"
-        tools:ignore="TouchTargetSizeCheck"
-        />
+        android:src="@drawable/back" />
 
-</RelativeLayout>
+</LinearLayout>

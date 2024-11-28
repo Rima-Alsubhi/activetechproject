@@ -33,6 +33,8 @@ public class ExploreActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_explore);
+        Log.d("ExploreActivity", "Activity created");
+
 
         // Initialize Firestore
         db = FirebaseFirestore.getInstance();

@@ -1,5 +1,7 @@
 package com.example.activetechproject;
+
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,11 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
-
     private final List<ChatMessage> chatMessages;
 
     public ChatAdapter(List<ChatMessage> chatMessages) {
@@ -31,16 +35,19 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         ChatMessage message = chatMessages.get(position);
 
         // عرض الاسم والنص
-        holder.username.setText(message.getSenderId());
+        holder.username.setText(message.getSenderId()); // استخدم getSenderName بدلاً من getSenderId
         holder.messageText.setText(message.getMessage());
 
         // عرض الصورة إذا كانت موجودة في الرسالة
-//        if (message.getImageUri() != null) {
-//            holder.messageImage.setVisibility(View.VISIBLE);
-//            holder.messageImage.setImageURI(message.getImageUri());
-//        } else {
-//            holder.messageImage.setVisibility(View.GONE); // إخفاء الصورة إذا لم تكن جزء من الرسالة
-//        }
+        if (message.getImageUri() != null) {
+            Log.d("ChatAdapter", "Image URL: " + message.getImageUri());
+            holder.messageImage.setVisibility(View.VISIBLE);            // استخدم Glide لتحميل الصورة من الرابط
+            Glide.with(holder.itemView.getContext())
+                    .load(message.getImageUri()) // تحميل الصورة من الرابط
+                    .into(holder.messageImage);
+        } else {
+            holder.messageImage.setVisibility(View.GONE); // إخفاء الصورة إذا لم تكن جزء من الرسالة
+        }
     }
 
     @Override
@@ -59,6 +66,4 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             messageImage = itemView.findViewById(R.id.message_image);
         }
     }
-
-
 }

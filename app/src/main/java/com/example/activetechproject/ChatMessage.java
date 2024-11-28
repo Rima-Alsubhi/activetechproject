@@ -5,17 +5,19 @@ import android.net.Uri;
 public class ChatMessage {
     private String senderId;
     private String message;
-    private String timestamp;
+    private String timesTamp;
     private Uri imageUri;
 
     public ChatMessage() {
+
+
         // مطلوب لقراءة البيانات من Firebase
     }
 
-    public ChatMessage(String senderId, String message, String timesTemp) {
+    public ChatMessage(String senderId, String message, Uri imageUri) {
         this.senderId = senderId;
         this.message = message;
-        this.timestamp = timestamp;
+        //this.timesTamp = timesTamp;
         this.imageUri= imageUri;
     }
 
@@ -27,7 +29,12 @@ public class ChatMessage {
         return message;
     }
 
-    public String getTimestamp() {
-        return timestamp;
+//    public String getTimesTamp() {
+//        return timesTamp;
+//    }
+
+    public Uri getImageUri() {
+        return imageUri;
     }
+
 }
