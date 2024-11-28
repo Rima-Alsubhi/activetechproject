@@ -3,8 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    android:padding="16dp"
     android:background="@drawable/background">
 
     <ImageView
@@ -12,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_gravity="center"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="60dp"
         android:scaleType="centerCrop"
         />
 
@@ -35,25 +33,7 @@
         android:textColor="#4A4A4A" />
 
     <TextView
-        android:id="@+id/eventLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="8dp"
-        android:textSize="23sp"
-        android:textColor="#4A4A4A" />
-
-    <TextView
         android:id="@+id/eventDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="8dp"
-        android:textSize="23sp"
-        android:textColor="#4A4A4A" />
-
-    <TextView
-        android:id="@+id/eventOrganization"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -69,6 +49,15 @@
         android:layout_marginTop="8dp"
         android:textSize="23sp"
         android:textColor="#4A4A4A" />
+    <TextView
+        android:id="@+id/eventOrganization"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:textSize="23sp"
+        android:textColor="#4A4A4A" />
+
 
     <View
         android:layout_width="wrap_content"
@@ -83,7 +72,6 @@
         android:layout_gravity="center"
         android:background="#0066B3"
         android:textColor="#FFFFFF"
-        android:layout_marginTop="10dp"
         android:padding="10dp"/>
 
     <View
@@ -95,7 +83,7 @@
         android:id="@+id/location_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Location"
+        android:text="@string/text18"
         android:layout_gravity="center"
         android:background="#0066B3"
         android:textColor="#FFFFFF"

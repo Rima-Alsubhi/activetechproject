@@ -27,5 +27,21 @@
     <string name="text15">Email</string>
     <string name="text16">RESET PASSWORD</string>
     <string name="text17">Interested in Event</string>
+    <string name="text18">Location</string>
+    <!-- Other strings -->
+    <string-array name="organization_list">
+        <item>All</item>
+        <item>Cyberhub</item>
+        <item>Dal</item>
+        <item>Tuwaiq Academy</item>
+        <item>Saudi Digital Academy</item>
+        <item>Wadi Makkah Investment Company</item>
+        <item>Royal Commission for Jubail abd Yanbu</item>
+        <item>Saudi Authority for Auditors and Accountants</item>
+        <item>Ministry of Communications and Information Technology</item>
+        <item>Digital Attaa</item>
+        <item>Expenditure efficiency forum</item>
+    </string-array>
+
 
 </resources>

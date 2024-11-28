@@ -15,11 +15,18 @@
         android:textStyle="bold"
         android:layout_marginBottom="16dp"/>
 
+    <Spinner
+        android:id="@+id/filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_title"
+        android:minHeight="48dp" />
+
     <EditText
         android:id="@+id/et_search_event"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_title"
+        android:layout_below="@id/filter"
         android:layout_marginBottom="16dp"
         android:background="@android:drawable/editbox_background"
         android:hint="@string/edit8"
@@ -46,7 +53,8 @@
         android:layout_width="390dp"
         android:layout_height="502dp"
         android:layout_below="@id/et_search_event"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        />
 
 
     <ImageButton
@@ -55,7 +63,7 @@
         android:layout_height="45dp"
         android:layout_below="@+id/recycler_view_events"
         android:layout_margin="16dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="1000dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/back"
         android:contentDescription="@string/back_button_description"
