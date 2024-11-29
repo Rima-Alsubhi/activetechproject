@@ -3,25 +3,38 @@ package com.example.activetechproject;
 import android.net.Uri;
 
 public class ChatMessage {
-    private String username;
+    private String senderId;
     private String message;
+    private String timesTamp;
     private Uri imageUri;
 
-    public ChatMessage(String username, String message, Uri imageUri) {
-        this.username = username;
-        this.message = message;
-        this.imageUri = imageUri;
+    public ChatMessage() {
+
+
+        // مطلوب لقراءة البيانات من Firebase
     }
 
-    public String getUsername() {
-        return username;
+    public ChatMessage(String senderId, String message, Uri imageUri) {
+        this.senderId = senderId;
+        this.message = message;
+        //this.timesTamp = timesTamp;
+        this.imageUri= imageUri;
+    }
+
+    public String getSenderId() {
+        return senderId;
     }
 
     public String getMessage() {
         return message;
     }
 
+//    public String getTimesTamp() {
+//        return timesTamp;
+//    }
+
     public Uri getImageUri() {
         return imageUri;
     }
+
 }

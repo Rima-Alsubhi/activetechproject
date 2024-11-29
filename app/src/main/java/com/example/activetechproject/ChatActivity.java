@@ -4,12 +4,16 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -18,11 +22,23 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
-
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int TAKE_PHOTO_REQUEST = 2;
     private RecyclerView chatRecyclerView;
@@ -30,9 +46,13 @@ public class ChatActivity extends AppCompatActivity {
     private List<ChatMessage> chatMessages;
     private EditText messageInput;
     private Uri selectedImageUri;
+    private String communityId;
+    private ImageView selectedImageView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
@@ -40,12 +60,17 @@ public class ChatActivity extends AppCompatActivity {
         messageInput = findViewById(R.id.et_message);
         ImageButton sendButton = findViewById(R.id.btn_send);
         ImageButton attachmentButton = findViewById(R.id.btn_attachment);
+        ImageButton backButton1 = findViewById(R.id.back_button);
+        selectedImageView = findViewById(R.id.iv_selected_image);
+        communityId = getIntent().getStringExtra("COMMUNITY_ID"); // الحصول على معرف المجتمع
 
         chatMessages = new ArrayList<>();
         chatAdapter = new ChatAdapter(chatMessages);
 
         chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         chatRecyclerView.setAdapter(chatAdapter);
+
+        loadMessages();
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,8 +81,10 @@ public class ChatActivity extends AppCompatActivity {
                     messageInput.setText("");
                     selectedImageUri = null; // إعادة تعيين الصورة بعد الإرسال
                 }
+                chatAdapter.notifyDataSetChanged(); // أبلغ adapter بتحديث البيانات
             }
         });
+
 
         attachmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +92,17 @@ public class ChatActivity extends AppCompatActivity {
                 openImageSourceDialog();
             }
         });
+
+        backButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish(); // Back to Network page
+            }
+        });
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference("test");
+        database.setValue("Hello, Firebase!");
+
+
     }
 
     private void openImageSourceDialog() {
@@ -113,16 +151,100 @@ public class ChatActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
-            selectedImageUri = data.getData();
+            selectedImageUri = data.getData(); // تأكد من أن URI تم تعيينه بنجاح
+            displaySelectedImage(); // عرض الصورة في الـ ImageView
         } else if (requestCode == TAKE_PHOTO_REQUEST && resultCode == RESULT_OK && data != null) {
-            selectedImageUri = data.getData(); // احفظ صورة الكاميرا
+            if (data.getExtras() != null) {
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                selectedImageUri = getImageUriFromBitmap(photo); // تحويل Bitmap إلى URI
+                displaySelectedImage(); // عرض الصورة في الـ ImageView
+            }
         }
     }
 
+    private Uri getImageUriFromBitmap(Bitmap bitmap) {
+        // حفظ الصورة في الذاكرة الداخلية أو الخارجية
+        File storageDir = new File(getExternalFilesDir(null), "images");
+        if (!storageDir.exists()) {
+            storageDir.mkdirs();
+        }
+
+        File imageFile = new File(storageDir, "photo_" + System.currentTimeMillis() + ".jpg");
+        try (FileOutputStream out = new FileOutputStream(imageFile)) {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out); // ضغط الصورة وحفظها
+            return Uri.fromFile(imageFile); // إرجاع الـ Uri
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    private void displaySelectedImage() {
+        if (selectedImageUri != null) {
+            // إظهار الـ ImageView الذي يحتوي على الصورة المختارة أو الملتقطة
+            selectedImageView.setVisibility(View.VISIBLE);
+            selectedImageView.setImageURI(selectedImageUri); // تعيين الصورة إلى ImageView
+        }
+    }
+
+
+    private void loadMessages() {
+        // الحصول على الرسائل من قاعدة البيانات الخاصة بالمجتمع المحدد
+        DatabaseReference messagesRef = FirebaseDatabase.getInstance().getReference("messages").child(communityId);
+        messagesRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                chatMessages.clear(); // مسح الرسائل السابقة
+                // استرجاع الرسائل الجديدة
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    ChatMessage chatMessage = snapshot.getValue(ChatMessage.class);
+                    chatMessages.add(chatMessage); // إضافة الرسالة إلى قائمة الرسائل
+
+                }
+                chatAdapter.notifyDataSetChanged(); // تحديث الشات لعرض الرسائل الجديدة
+                chatRecyclerView.scrollToPosition(chatMessages.size() - 1); // للتمرير إلى اخر رسالة
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(ChatActivity.this, "Failed to load messages: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void sendMessage(String message, Uri imageUri) {
-        String username = "User123"; // يمكن جلب الاسم من قاعدة بيانات
-        chatMessages.add(new ChatMessage(username, message, imageUri));
-        chatAdapter.notifyDataSetChanged();
-        chatRecyclerView.scrollToPosition(chatMessages.size() - 1);
+        // للحصول على اسم المستخدم الحالي
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(userId);
+        String timestamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date());
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // لاسترجاع اسم المستخدم من قاعدة البيانات
+                String username = dataSnapshot.child("fullName").getValue(String.class);
+                ChatMessage chatMessage = new ChatMessage(username, message, imageUri);
+                chatMessages.add(chatMessage);
+                chatAdapter.notifyDataSetChanged();
+                chatRecyclerView.scrollToPosition(chatMessages.size() - 1);
+                selectedImageView.setVisibility(View.GONE);
+                selectedImageUri = null;
+//                DatabaseReference messagesRef = FirebaseDatabase.getInstance().getReference("messages").child(communityId);
+//                String messageId = messagesRef.push().getKey();
+//
+//                if (messageId != null) {4
+//                    messagesRef.child(messageId).setValue(chatMessage).addOnCompleteListener(task -> {
+//                        if (!task.isSuccessful()) {
+//                            Toast.makeText(ChatActivity.this, "Failed to send message", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(ChatActivity.this,
+                        "Failed to read data " + databaseError.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
