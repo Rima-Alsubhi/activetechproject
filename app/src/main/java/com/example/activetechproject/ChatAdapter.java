@@ -34,11 +34,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
         ChatMessage message = chatMessages.get(position);
 
-        // عرض الاسم والنص
-        holder.username.setText(message.getSenderId()); // استخدم getSenderName بدلاً من getSenderId
+        holder.username.setText(message.getSenderId());
         holder.messageText.setText(message.getMessage());
 
-        // عرض الصورة إذا كانت موجودة في الرسالة
         if (message.getImageUri() != null) {
             Log.d("ChatAdapter", "Image URL: " + message.getImageUri());
             holder.messageImage.setVisibility(View.VISIBLE);            // استخدم Glide لتحميل الصورة من الرابط

@@ -10,6 +10,8 @@ import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 public class NetworkActivity extends AppCompatActivity {
     private Button btnCyber, btnData, btnSoftware;
     @Override
@@ -17,13 +19,28 @@ public class NetworkActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_network);
 
-        ImageButton backButton1 = findViewById(R.id.back_button);
-        backButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish(); // Back to Home page
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+
+            if (itemId == R.id.nav_home) {
+                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            } else if (itemId == R.id.nav_search) {
+                startActivity(new Intent(getApplicationContext(), ExploreActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            } else if (itemId == R.id.nav_profile) {
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
             }
+
+            return false;
         });
+
         btnCyber = findViewById(R.id.btn_cyber);
         btnData = findViewById(R.id.btn_data);
         btnSoftware = findViewById(R.id.btn_software);
@@ -35,7 +52,7 @@ public class NetworkActivity extends AppCompatActivity {
 
     private void openChat(String communityId) {
         Intent intent = new Intent(NetworkActivity.this, ChatActivity.class);
-        intent.putExtra("COMMUNITY_ID", communityId); // تمرير معرف المجتمع
+        intent.putExtra("COMMUNITY_ID", communityId);
         startActivity(intent);
     }
 }

@@ -1,5 +1,6 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E3F2FD"
@@ -35,6 +36,16 @@
         android:orientation="horizontal"
         android:padding="8dp"
         android:background="#BBDEFB">
+
+        <ImageView
+            android:id="@+id/iv_selected_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginEnd="8dp"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"
+            android:src="@drawable/ic_launcher_foreground"
+            android:contentDescription="Selected Image" />
 
         <ImageButton
             android:id="@+id/btn_attachment"

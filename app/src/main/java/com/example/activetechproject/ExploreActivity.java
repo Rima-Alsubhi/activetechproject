@@ -1,4 +1,5 @@
 package com.example.activetechproject;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -33,6 +36,34 @@ public class ExploreActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_explore);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        bottomNavigationView.setSelectedItemId(R.id.nav_search);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+
+            if (itemId == R.id.nav_home) {
+                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            } else if (itemId == R.id.nav_search) {
+                return true;
+            } else if (itemId == R.id.nav_profile) {
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            }
+
+            return false;
+        });
+
+
+        if (db == null) {
+            Log.e(TAG, "Firestore initialization failed.");
+            Toast.makeText(this, "Firestore not initialized!", Toast.LENGTH_SHORT).show();
+        }
+
         Log.d("ExploreActivity", "Activity created");
 
 
@@ -69,10 +100,7 @@ public class ExploreActivity extends AppCompatActivity {
         searchEvents("");
 
         // Back button
-        ImageButton backButton = findViewById(R.id.back_button);
-        backButton.setOnClickListener(v -> {
-            finish(); // This will close the current activity and return to the previous one
-        });
+
     }
 
     private void searchEvents(String searchText) {
@@ -83,6 +111,7 @@ public class ExploreActivity extends AppCompatActivity {
                 .startAt(searchText)
                 .endAt(searchText + "\uf8ff")
                 .limit(20);
+        Toast.makeText(this, "Loading events, please wait...", Toast.LENGTH_SHORT).show();
 
         query.get().addOnCompleteListener(task -> {
             hideLoading();
@@ -92,6 +121,8 @@ public class ExploreActivity extends AppCompatActivity {
                     Event event = document.toObject(Event.class);
                     event.setId(document.getId());  // Add Document ID to Event
                     eventList.add(event);
+
+
                 }
                 eventAdapter.notifyDataSetChanged();
 
