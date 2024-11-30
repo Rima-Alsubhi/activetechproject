@@ -62,7 +62,7 @@ public class ChatActivity extends AppCompatActivity {
         ImageButton attachmentButton = findViewById(R.id.btn_attachment);
         ImageButton backButton1 = findViewById(R.id.back_button);
         selectedImageView = findViewById(R.id.iv_selected_image);
-        communityId = getIntent().getStringExtra("COMMUNITY_ID"); // الحصول على معرف المجتمع
+        communityId = getIntent().getStringExtra("COMMUNITY_ID");
 
         chatMessages = new ArrayList<>();
         chatAdapter = new ChatAdapter(chatMessages);
@@ -79,9 +79,9 @@ public class ChatActivity extends AppCompatActivity {
                 if (!message.isEmpty() || selectedImageUri != null) {
                     sendMessage(message, selectedImageUri);
                     messageInput.setText("");
-                    selectedImageUri = null; // إعادة تعيين الصورة بعد الإرسال
+                    selectedImageUri = null;
                 }
-                chatAdapter.notifyDataSetChanged(); // أبلغ adapter بتحديث البيانات
+                chatAdapter.notifyDataSetChanged();
             }
         });
 
@@ -113,9 +113,9 @@ public class ChatActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
-                            takePhoto(); // تفعيل الكاميرا
+                            takePhoto();
                         } else {
-                            openImagePicker(); // فتح الاستديو
+                            openImagePicker();
                         }
                     }
                 });
@@ -128,7 +128,6 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void takePhoto() {
-        // طلب إذن الكاميرا إذا لم يكن متاحًا
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, TAKE_PHOTO_REQUEST);
         } else {
@@ -143,7 +142,7 @@ public class ChatActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == TAKE_PHOTO_REQUEST && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            takePhoto(); // حاول فتح الكاميرا مجددًا بعد الحصول على الإذن
+            takePhoto();
         }
     }
 
@@ -151,19 +150,19 @@ public class ChatActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
-            selectedImageUri = data.getData(); // تأكد من أن URI تم تعيينه بنجاح
-            displaySelectedImage(); // عرض الصورة في الـ ImageView
+            selectedImageUri = data.getData();
+            displaySelectedImage();
         } else if (requestCode == TAKE_PHOTO_REQUEST && resultCode == RESULT_OK && data != null) {
             if (data.getExtras() != null) {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
-                selectedImageUri = getImageUriFromBitmap(photo); // تحويل Bitmap إلى URI
-                displaySelectedImage(); // عرض الصورة في الـ ImageView
+                selectedImageUri = getImageUriFromBitmap(photo);
+                displaySelectedImage();
             }
         }
     }
 
     private Uri getImageUriFromBitmap(Bitmap bitmap) {
-        // حفظ الصورة في الذاكرة الداخلية أو الخارجية
+
         File storageDir = new File(getExternalFilesDir(null), "images");
         if (!storageDir.exists()) {
             storageDir.mkdirs();
@@ -171,8 +170,8 @@ public class ChatActivity extends AppCompatActivity {
 
         File imageFile = new File(storageDir, "photo_" + System.currentTimeMillis() + ".jpg");
         try (FileOutputStream out = new FileOutputStream(imageFile)) {
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out); // ضغط الصورة وحفظها
-            return Uri.fromFile(imageFile); // إرجاع الـ Uri
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            return Uri.fromFile(imageFile);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -180,28 +179,28 @@ public class ChatActivity extends AppCompatActivity {
     }
     private void displaySelectedImage() {
         if (selectedImageUri != null) {
-            // إظهار الـ ImageView الذي يحتوي على الصورة المختارة أو الملتقطة
+
             selectedImageView.setVisibility(View.VISIBLE);
-            selectedImageView.setImageURI(selectedImageUri); // تعيين الصورة إلى ImageView
+            selectedImageView.setImageURI(selectedImageUri);
         }
     }
 
 
     private void loadMessages() {
-        // الحصول على الرسائل من قاعدة البيانات الخاصة بالمجتمع المحدد
+
         DatabaseReference messagesRef = FirebaseDatabase.getInstance().getReference("messages").child(communityId);
         messagesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                chatMessages.clear(); // مسح الرسائل السابقة
-                // استرجاع الرسائل الجديدة
+                chatMessages.clear();
+
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     ChatMessage chatMessage = snapshot.getValue(ChatMessage.class);
-                    chatMessages.add(chatMessage); // إضافة الرسالة إلى قائمة الرسائل
+                    chatMessages.add(chatMessage);
 
                 }
-                chatAdapter.notifyDataSetChanged(); // تحديث الشات لعرض الرسائل الجديدة
-                chatRecyclerView.scrollToPosition(chatMessages.size() - 1); // للتمرير إلى اخر رسالة
+                chatAdapter.notifyDataSetChanged();
+                chatRecyclerView.scrollToPosition(chatMessages.size() - 1);
             }
 
             @Override
@@ -212,7 +211,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void sendMessage(String message, Uri imageUri) {
-        // للحصول على اسم المستخدم الحالي
+
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(userId);
         String timestamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date());
@@ -220,7 +219,7 @@ public class ChatActivity extends AppCompatActivity {
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // لاسترجاع اسم المستخدم من قاعدة البيانات
+
                 String username = dataSnapshot.child("fullName").getValue(String.class);
                 ChatMessage chatMessage = new ChatMessage(username, message, imageUri);
                 chatMessages.add(chatMessage);

@@ -11,7 +11,7 @@ public class ChatMessage {
     public ChatMessage() {
 
 
-        // مطلوب لقراءة البيانات من Firebase
+
     }
 
     public ChatMessage(String senderId, String message, Uri imageUri) {

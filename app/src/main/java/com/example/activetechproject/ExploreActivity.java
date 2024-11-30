@@ -32,7 +32,7 @@ public class ExploreActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private ProgressBar progressBar;
     private TextView tvNoResults;
-    private String selectedOrganization = ""; // للمنظمة المختارة
+    private String selectedOrganization = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +66,12 @@ public class ExploreActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedOrganization = parent.getItemAtPosition(position).toString();
-                searchEvents(etSearchEvent.getText().toString()); // تحديث النتائج بناءً على المنظمة
+                searchEvents(etSearchEvent.getText().toString());
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                selectedOrganization = ""; // إعادة التعيين في حال عدم اختيار شيء
+                selectedOrganization = "";
             }
         });
 

@@ -39,12 +39,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
         if (message.getImageUri() != null) {
             Log.d("ChatAdapter", "Image URL: " + message.getImageUri());
-            holder.messageImage.setVisibility(View.VISIBLE);            // استخدم Glide لتحميل الصورة من الرابط
+            holder.messageImage.setVisibility(View.VISIBLE);
             Glide.with(holder.itemView.getContext())
-                    .load(message.getImageUri()) // تحميل الصورة من الرابط
+                    .load(message.getImageUri())
                     .into(holder.messageImage);
         } else {
-            holder.messageImage.setVisibility(View.GONE); // إخفاء الصورة إذا لم تكن جزء من الرسالة
+            holder.messageImage.setVisibility(View.GONE);
         }
     }
 
